@@ -88,8 +88,8 @@ axios.get("/stats/enfants").then(response => {
                     //childsDetailsStats
                 this.childsDetailsStats.nbInscritsG = response.result.garcons;
                 this.childsDetailsStats.nbInscritsF = response.result.filles;
-                this.childsDetailsStats.ratioGarcons=response.result.garcons/response.result.total;
-                this.childsDetailsStats.ratioFilles=response.result.filles/response.result.total;
+                this.childsDetailsStats.ratioGarcons=parseFloat((response.result.garcons/response.result.total)*100).toFixed(2);
+                this.childsDetailsStats.ratioFilles=parseFloat((response.result.filles/response.result.total)*100).toFixed(2);
                 this.nbrPays = response.result.nbrPays;
                 
                 this.ageStats.nbZeroCinq=response.result.ages[0];

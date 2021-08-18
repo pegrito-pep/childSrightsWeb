@@ -39,10 +39,10 @@
               style="text-shadow: 1px 1px 2px #333;"
             >
               <b-carousel-slide>
-                <h3>Garçons:{{ this.childsDetailsStats.ratioGarcons }}%</h3>
+                <h4>Garçons:{{ this.childsDetailsStats.ratioGarcons }}%</h4>
               </b-carousel-slide>
               <b-carousel-slide>
-                <h3>Filles:{{ this.childsDetailsStats.ratioFilles }}%</h3>
+                <h4>Filles:{{ this.childsDetailsStats.ratioFilles }}%</h4>
               </b-carousel-slide>
             </b-carousel>
              
@@ -146,7 +146,6 @@ export default {
     }
   },
   mounted() {
-    console.log(`ff`, this.childsDetailsStats);
     this.carousel();
   },
   created() {

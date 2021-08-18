@@ -19,6 +19,7 @@ const routes = [{
         name: 'home',
         component: Home
     },
+    { path: '/', redirect: { name: 'home' }},
     {
       path: '/profile',
       name: 'profile',
