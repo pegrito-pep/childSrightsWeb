@@ -1,5 +1,5 @@
 <template>
-  <div class="container-fluid">
+  <div class="container-fluid" ref="homeCont">
     <!--page header start -->
     <div class="page-header">
       <div class="row align-items-end">
@@ -161,6 +161,19 @@
 import QuizDetails from "@/views/quizzes/QuizDetail.vue";
 import AddQuiz from "@/views/quizzes/AddQuiz.vue";
 
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css';
+import Vue from 'vue';
+// define the plugin and pass object for config
+Vue.use(Loading, {
+    color: '#000000',
+    width: 64,
+    height: 64,
+    backgroundColor: '#ffffff',
+    opacity: 0.5,
+    zIndex: 999
+});
+
 export default {
   name: "quiz",
   components: {
@@ -177,7 +190,8 @@ export default {
     selectedQuiz: null,
     selected2: "Order By",
     selected: 10,
-    totalItems:0
+    totalItems:0,
+    loader: "dots",
   }),
 
   methods: {
@@ -208,6 +222,14 @@ export default {
     },
     //recherche de quiz par son Libelle
     retrieveQuizzes(){
+      let homeCont = this.$refs.homeCont;
+        let loader = this.$loading.show({
+          container: homeCont,
+          loader: "spinner",
+          color: "black",
+        });
+
+
       const params=this.getRequestParams(
         this.domaine,
         this.page,
@@ -219,6 +241,7 @@ export default {
       this.totalItems=response.result.totalItems;
         this.quizzes = response.result.data;
         this.count=response.result.totalItems;
+        loader.hide();
       })
       .catch((error) => {
         console.log(error)
@@ -250,6 +273,7 @@ export default {
         }
       });
      }
+
     
   },
   async mounted() {

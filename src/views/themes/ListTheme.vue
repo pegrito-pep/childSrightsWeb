@@ -1,5 +1,4 @@
 <template>
-    
     <div class="container-fluid">
     <!--page header start -->
         <div class="page-header">
@@ -39,25 +38,11 @@
                     <div class="collapse d-md-block display-options" id="displayOptions">
                     
                         <div class="d-block d-md-inline-block">
-                            <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#demoModal">Ajouter un thème</button> -->
-                            <!-- <div class="search-sm d-inline-block float-md-left mr-1 mb-1 align-top">
-                                <form action="" class="">
-                                    <input type="text" class="form-control" placeholder="Search.." required="">
-                                    <button type="submit" class="btn btn-icon"><i class="ik ik-search"></i></button>
-                                    <button type="button" id="adv_wrap_toggler" class="adv-btn ik ik-chevron-down dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
-                                    <div class="adv-search-wrap dropdown-menu dropdown-menu-right" aria-labelledby="adv_wrap_toggler" x-placement="bottom-end" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(196px, 30px, 0px);">
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" placeholder="libelle">
-                                        </div>
-                                        <button class="btn btn-theme">Search</button>
-                                    </div>
-                                </form>
-                            </div> -->
                         </div>
                     </div>
                 </div>
                 <div class="separator mb-20"></div>
-            <div class="row layout-wrap" id="layout-wrap" style="width:99%">
+            <div class="row layout-wrap" id="layout-wrap" style="width:99%"  ref="themeCont">
                <div class="col-xl-3 col-lg-4 col-12 col-sm-6 mb-4 list-item list-item-grid" v-for="theme in this.themes" :key="theme.idTheme">
                     <div class="card d-flex flex-row mb-3">
                         <a class="d-flex card-img" @click.prevent="showDetails(theme)" href="#editLayoutItem" data-toggle="modal" data-target="#editLayoutItem">
@@ -96,7 +81,18 @@
 </template>
 <script>
 import ThemeDetails from '@/views/themes/ThemeDetails.vue'
-
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css';
+import Vue from 'vue';
+// define the plugin and pass object for config
+Vue.use(Loading, {
+    color: '#000000',
+    width: 64,
+    height: 64,
+    backgroundColor: '#ffffff',
+    opacity: 0.5,
+    zIndex: 999
+});
 
 export default {
     name:"theme",
@@ -109,7 +105,8 @@ export default {
         theme:{
             libelle: "",
             illustration:""
-        }
+        },
+        loader:"dots"
 
     }),
 
@@ -120,18 +117,31 @@ export default {
             $('#editLayoutItem').modal('show')
         },
         getThemes(){
+            let homeCont = this.$refs.themeCont;
+            let loader = this.$loading.show({
+                container: homeCont,
+                loader: "dots",
+                color: "black",
+            });
             axios.get('/themes').then(response => {
-             
-			this.themes = response.result	
-               console.log("themes",this.themes)
-	        })
+                this.themes = response.result})
+                loader.hide();
+            //    console.log("themes",this.themes)
         }
     },
-    mounted() {
-	  this.getThemes()
-	  this.$root.$on('new-theme-added', () => {
-		  this.getThemes()
-	  })
+    beforeCreate() {
+	  let homeCont = this.$refs.themeCont;
+            let loader = this.$loading.show({
+                container: homeCont,
+                loader: "dots",
+                color: "black",
+            });
+            axios.get('/themes').then(response => {
+                this.themes = response.result})
+                loader.hide();
+	//   this.$root.$on('new-theme-added', () => {
+	// 	  this.getThemes()
+	//   })
   }
     
 }

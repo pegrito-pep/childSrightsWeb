@@ -340,6 +340,7 @@ i {
 }
 .container-left{
   width: 40%;
+  position:relative;
 }
 .container-right{
   width: 60%;
@@ -351,7 +352,9 @@ i {
     font-size: 2em;
 }
 .container-central img{
-  width:100%;
+  width:150%;
+  position:absolute;
+  top:1px;
 }
 .container-theme .container-header p{
   font-size: 2em;

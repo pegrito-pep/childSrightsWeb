@@ -1,5 +1,5 @@
 <template>
-    <div class="container-fluid">
+    <div class="container-fluid" ref="dashboardCont">
         <div class="page-header">
             <div class="row align-items-end">
                 <div class="col-lg-8">
@@ -38,7 +38,19 @@
     import ChildsStats from '@/views/stats/ChildsStats.vue'
     import QuizStats from '@/views/stats/QuizStat.vue'
     import ChildsDetailStat from '@/views/stats/ChildsDetailStat.vue'
-    import LangueStats from '@/views/stats/LangueStats.vue'  
+    import LangueStats from '@/views/stats/LangueStats.vue'
+    import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css';
+import Vue from 'vue';
+// define the plugin and pass object for config
+Vue.use(Loading, {
+    color: '#000000',
+    width: 64,
+    height: 64,
+    backgroundColor: '#ffffff',
+    opacity: 0.5,
+    zIndex: 999
+});  
 export default {
     name: 'Home',
     components:{
@@ -77,9 +89,14 @@ export default {
 
     }),
     beforeCreate() {
+        let homeCont = this.$refs.dashboardCont;
+        let loader = this.$loading.show({
+          container: homeCont,
+          loader: "bars",
+          color: "red",
+        });
 axios.get("/stats/enfants").then(response => {
-         //console.log("result",response.result)
-                    //childStats
+  
                 this.childsStats.total = response.result.total;
                 //this.childsStats.ratio= this.nbInscritsActifs/this.stats.total? typeof this.nbInscritsActifs !== 'undefined' :0
                 this.childsStats.ratio=0;
@@ -103,6 +120,7 @@ axios.get("/stats/enfants").then(response => {
                 this.langStats.nbInscritsFf = response.result.ff;
                 this.langStats.nbInscritsMa = response.result.ma;
                   console.log("langStats",this.langStats)
+                  loader.hide();
 
                
     });

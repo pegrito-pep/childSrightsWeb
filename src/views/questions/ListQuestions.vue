@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" ref="questCont">
     <div class="Qhead">
       <h1>Liste de toutes les questions</h1>
       <button
@@ -40,6 +40,17 @@
 <script>
 import GlobalQuestionAdd from "@/views/questions/GlobalQuestionAdd.vue";
 import Vue from 'vue'
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css';
+// define the plugin and pass object for config
+Vue.use(Loading, {
+    color: '#000000',
+    width: 64,
+    height: 64,
+    backgroundColor: '#ffffff',
+    opacity: 0.5,
+    zIndex: 999
+});
 
 export default {
   name: "listQuestions",
@@ -53,7 +64,8 @@ export default {
     pageSize:10,
     totalItems:0,
     questions: [],
-    quizzes: []
+    quizzes: [],
+    loader: "dots",
   }),
   methods: {
     getRequestParams(page, pageSize){
@@ -72,6 +84,12 @@ export default {
       this.retrieveQuestions();
     },
      retrieveQuestions(){
+       let homeCont = this.$refs.questCont;
+        let loader = this.$loading.show({
+          container: homeCont,
+          loader: "dots",
+          color: "black",
+        });
       const params=this.getRequestParams(
         this.page,
         this.pageSize
@@ -82,6 +100,7 @@ export default {
       this.totalItems=response.result.totalItems;
         this.questions = response.result.data;
         this.count=response.result.totalItems;
+        loader.hide();
 
         // response.result.data.length > this.pageSize && (this.disable = false)
       })

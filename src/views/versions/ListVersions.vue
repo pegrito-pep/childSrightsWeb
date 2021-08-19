@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div ref="versionCont">
         <div v-for="version in this.versions" :key="version.idVersion" class="pilotage">
             <div class="largeur">
                 <div class="card text-white" :id="version.langue">
@@ -28,11 +28,24 @@
     </div>
 </template>
 <script>
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css';
+import Vue from 'vue';
+// define the plugin and pass object for config
+Vue.use(Loading, {
+    color: '#000000',
+    width: 64,
+    height: 64,
+    backgroundColor: '#ffffff',
+    opacity: 0.5,
+    zIndex: 999
+});
 export default {
     name:"listVersions",
     props: ["quiz"],
     data:()=>({
         versions:[],
+        loader: "bars",
   
     }),
     methods: {
@@ -43,12 +56,19 @@ export default {
              this.$router.push({ name: "/version-details", params: { idVersion } });
         },
         getVersions(idQuiz) {
+            let homeCont = this.$refs.versionCont;
+            let loader = this.$loading.show({
+                container: homeCont,
+                loader: "bars",
+                color: "red",
+            });
             let url='/quiz/'+idQuiz+'/versions?filter=all'
             axios.get(url).then(response => {
                 console.log("différentes versions", response.result)
                 this.versions = response.result;
+                loader.hide();
             });
-    }
+        }
   },
   async mounted() {
     await this.getVersions(this.quiz.idQuiz)

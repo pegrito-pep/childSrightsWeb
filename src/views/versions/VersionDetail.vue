@@ -1,5 +1,5 @@
 <template>
-  <div class="container-fluid">
+  <div class="container-fluid" ref="questionsversionCont">
     <!--page header start -->
     <div class="page-header">
       <div class="row align-items-end">
@@ -109,6 +109,18 @@
 </template>
 <script>
 import AddQuestion from "@/views/questions/AddQuestion.vue";
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css';
+import Vue from 'vue';
+// define the plugin and pass object for config
+Vue.use(Loading, {
+    color: '#000000',
+    width: 64,
+    height: 64,
+    backgroundColor: '#ffffff',
+    opacity: 0.5,
+    zIndex: 999
+});
 export default {
   name: "version-details",
   components: {
@@ -139,9 +151,16 @@ export default {
       this.$router.push({ name: "/version-details", params: { idVersion } });
     },
     getQuestions(id) {
+        let homeCont = this.$refs.questionsversionCont;
+        let loader = this.$loading.show({
+          container: homeCont,
+          loader: "dots",
+          color: "black",
+        });
       axios.get("/versions/" + id + "/questions?filter=all").then(response => {
         console.log("response", response.result);
         this.questions = response.result.data;
+        loader.hide();
       });
     },
     

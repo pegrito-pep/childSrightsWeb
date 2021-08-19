@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div ref="learnerCont">
     <!--page header start -->
         <div class="page-header">
             <div class="row align-items-end">
@@ -97,6 +97,17 @@ import moment from 'moment-timezone'
 Vue.use(VueMoment, {
     moment,
 })
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css';
+// define the plugin and pass object for config
+Vue.use(Loading, {
+    color: '#000000',
+    width: 64,
+    height: 64,
+    backgroundColor: '#ffffff',
+    opacity: 0.5,
+    zIndex: 999
+});
 import AllLearnersDetails from '@/views/learners/AllLearnersDetails.vue'
 export default {
     name:'AllLearners2',
@@ -146,11 +157,18 @@ export default {
     },
   },
   mounted() {
+    let homeCont = this.$refs.learnerCont;
+        let loader = this.$loading.show({
+          container: homeCont,
+          loader: "spinner",
+          color: "black",
+        });
     axios
       .get("enfants?filter=all")
       .then((res) => res.result.data)
       .then((res) => {
         this.learners = res;
+        loader.hide();
         console.log("learners",this.learners )
       })
       .then(() => {

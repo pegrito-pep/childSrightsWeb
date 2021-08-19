@@ -18,6 +18,7 @@ import i18n from './i18n'
 Vue.component('default-layout', Default)
 Vue.component('empty-layout', Empty)
 
+
 Vue.config.productionTip = true
 
 
