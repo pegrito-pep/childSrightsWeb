@@ -16,10 +16,10 @@
                     <nav class="breadcrumb-container" aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">
-                                <a href="../index.html"><i class="ik ik-home"></i></a>
-                            </li>
-                            <li class="breadcrumb-item">
-                                <a href="#">Home</a>
+
+                                 <router-link to="/home">
+                                   <i class="ik ik-home"></i><span> Accueil</span>
+                                 </router-link>
                             </li>
                             <li class="breadcrumb-item active" aria-current="page">Apprenants</li>
                         </ol>

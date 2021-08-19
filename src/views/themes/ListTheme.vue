@@ -16,10 +16,9 @@
                     <nav class="breadcrumb-container" aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">
-                                <a href="../index.html"><i class="ik ik-home"></i></a>
-                            </li>
-                            <li class="breadcrumb-item">
-                                <a href="#">Home</a>
+                                 <router-link to="/home">
+                                   <i class="ik ik-home"></i><span> Accueil</span>
+                                 </router-link>
                             </li>
                             <li class="breadcrumb-item active" aria-current="page">Thèmes</li>
                         </ol>
@@ -45,11 +44,11 @@
             <div class="row layout-wrap" id="layout-wrap" style="width:99%"  ref="themeCont">
                <div class="col-xl-3 col-lg-4 col-12 col-sm-6 mb-4 list-item list-item-grid" v-for="theme in this.themes" :key="theme.idTheme">
                     <div class="card d-flex flex-row mb-3">
-                        <a class="d-flex card-img" @click.prevent="showDetails(theme)" href="#editLayoutItem" data-toggle="modal" data-target="#editLayoutItem">
-                            <!-- <b-img :src="theme.image" class="list-thumbnail responsive border-0" style="height:18em"/> -->
-                   
-                            <!-- <span class="badge badge-pill badge-primary position-absolute badge-top-left">pas encore synchronisé</span>
-                            <span class="badge badge-pill badge-secondary position-absolute badge-top-left-2">synchronisé</span> -->
+                        <a class="d-flex card-img" @click.prevent="showDetails(theme)"   
+                            href="#themeDetailLayout"
+                            data-toggle="modal"
+                            data-target="#themeDetailLayout">
+          
                         </a>
                         <div class="d-flex flex-grow-1 min-width-zero card-content">
                             <div class="card-body align-self-center d-flex flex-column flex-md-row justify-content-between min-width-zero align-items-md-center">
@@ -76,7 +75,7 @@
             </div>
             </div>
         </div>
-        <theme-details v-bind:theme="selectedTheme"/>
+        <theme-details v-if="showDetailTheme" v-bind:theme="selectedTheme"/>
     </div>
 </template>
 <script>
@@ -100,6 +99,7 @@ export default {
         ThemeDetails
     },
     data:()=>({
+        showDetailTheme:false,
         selectedTheme:null,
         themes:[],
         theme:{
@@ -112,9 +112,11 @@ export default {
 
     methods: {
         showDetails(theme) {
+            this.showDetailTheme = true;
             this.selectedTheme = theme;
+            $('#themeDetailLayout').modal('show')
             console.log("theme",this.selectedTheme)
-            $('#editLayoutItem').modal('show')
+           
         },
         getThemes(){
             let homeCont = this.$refs.themeCont;

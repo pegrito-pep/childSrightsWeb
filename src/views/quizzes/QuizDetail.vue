@@ -52,7 +52,6 @@
                     </div>
                 </div>
             </div>
-            <!-- <add-super-mairie /> -->
             <add-version v-bind:quiz="quiz"/>
         </div>
 </template>

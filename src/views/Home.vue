@@ -15,11 +15,11 @@
                     <nav class="breadcrumb-container" aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">
-                                <a href="../index.html"><i class="ik ik-home"></i></a>
+                                <a href="#"><i class="ik ik-home"></i><span> Accueil</span></a>
                             </li>
-                            <li class="breadcrumb-item">
+                            <!-- <li class="breadcrumb-item">
                                 <a href="#">Statictics</a>
-                            </li>
+                            </li> -->
                         </ol>
                     </nav>
                 </div>

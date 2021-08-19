@@ -1,5 +1,5 @@
 <template>
-    <div class="modal fade edit-layout-modal" id="editLayoutItem" tabindex="-1" role="dialog" aria-labelledby="editLayoutItemLabel" style="display: none;" aria-hidden="true">
+    <div class="modal fade edit-layout-modal" id="themeDetailLayout" tabindex="-1" role="dialog" aria-labelledby="editLayoutItemLabel" style="display: none;" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -353,8 +353,7 @@ i {
 }
 .container-central img{
   width:150%;
-  position:absolute;
-  top:1px;
+  
 }
 .container-theme .container-header p{
   font-size: 2em;

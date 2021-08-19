@@ -15,15 +15,13 @@
         <div class="col-lg-4">
           <nav class="breadcrumb-container" aria-label="breadcrumb">
             <ol class="breadcrumb">
-              <li class="breadcrumb-item">
-                <a href="../index.html">
-                  <i class="ik ik-home"></i>
-                </a>
-              </li>
-              <li class="breadcrumb-item">
-                <a href="#">Home</a>
-              </li>
-              <li class="breadcrumb-item active" aria-current="page">Quizzes</li>
+                <li class="breadcrumb-item">
+
+                      <router-link to="/home">
+                        <i class="ik ik-home"></i><span> Accueil</span>
+                      </router-link>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">Quiz</li>
             </ol>
           </nav>
         </div>
@@ -153,7 +151,7 @@
         ></b-pagination>
       </div>
     </div>
-    <quiz-details v-bind:quiz="selectedQuiz"/>
+    <quiz-details v-if="showDetailQuiz" v-bind:quiz="selectedQuiz"/>
     <add-quiz /> 
   </div>
 </template>
@@ -181,6 +179,7 @@ export default {
     AddQuiz
   },
   data: () => ({
+    showDetailQuiz:false,
     domaine:"",
     page:1,
     count:0,
@@ -248,6 +247,7 @@ export default {
       });
     },
     showDetails(quiz) {
+      this.showDetailQuiz=true;
       this.selectedQuiz = quiz;
       $('#editLayoutItem').modal('show')
     },
