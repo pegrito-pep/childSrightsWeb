@@ -137,8 +137,10 @@ export default {
                 color: "black",
             });
             axios.get('/themes').then(response => {
-                this.themes = response.result})
+                this.themes = response.result
                 loader.hide();
+                })
+                
 	//   this.$root.$on('new-theme-added', () => {
 	// 	  this.getThemes()
 	//   })
