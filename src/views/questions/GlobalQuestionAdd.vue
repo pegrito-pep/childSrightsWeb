@@ -17,7 +17,7 @@
           </button>
         </div>
         <div class="modal-body">
-          <span v-for="(e,i) in errors" :key="i">{{ e }}</span>
+          <span class="text-danger" v-for="(e,i) in errors" :key="i">{{ e }}</span>
           <section v-if="step ==1">
             <h3>Choisir le quiz</h3>
             <b-form-select
@@ -259,18 +259,25 @@ export default {
         if (!this.selectedQuiz) {
           this.errors = "Veuillez selectionner un quiz";
           return false;
+        }else{
+          this.errors =[];
         }
       }
       if (this.step == 2) {
+        
         if (!this.selectedVersion) {
           this.errors = "Veuillez selectionner une version";
           return false;
+        }else{
+          this.errors =[];
         }
       }
       if (this.step == 3) {
         if (!this.question.libelle) {
           this.errors = "Veuillez renseigner le libellé";
           return false;
+        }else{
+          this.errors =[];
         }
         if (!this.question.explication) {
           this.errors = "Veuillez renseigner une explication de la réponse";
@@ -278,13 +285,11 @@ export default {
         }
       }
       if (this.step == 4) {
-        if (!this.question.libelle) {
-          this.errors = "Veuillez renseigner le libellé";
+       if (!this.question.proposition1 || this.fields[0].last.length ==0) {
+          this.errors = "Veuillez renseigner au moin deux propositions";
           return false;
-        }
-        if (!this.question.explication) {
-          this.errors = "Veuillez renseigner une explication de la réponse";
-          return false;
+        }else{
+          this.errors =[];
         }
         let prop1 = {
           libelle: this.question.proposition1,
@@ -298,7 +303,6 @@ export default {
           };
           this.propositions.push(prop);
         }
-
         this.setCheckbox(this.propositions);
       }
 

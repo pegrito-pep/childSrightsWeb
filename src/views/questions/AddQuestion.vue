@@ -1,6 +1,6 @@
 <template>
   <div
-    class="modal fade"
+    class="modal fade" ref="questAdd"
     id="questionModal"
     tabindex="-1"
     role="dialog"
@@ -78,6 +78,18 @@
 <script>
 import Response from "@/views/response/Response.vue";
 import notif from "@/plugins/notif.js";
+import Vue from 'vue'
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css';
+// define the plugin and pass object for config
+Vue.use(Loading, {
+    color: '#000000',
+    width: 64,
+    height: 64,
+    backgroundColor: '#ffffff',
+    opacity: 0.5,
+    zIndex: 999
+});
 export default {
   name: "AddQuestionNew",
   components: {
@@ -94,7 +106,8 @@ export default {
       explication: "",
       proposition1:""
     },
-    propositions: []
+    propositions: [],
+    loader: "spinner"
   }),
   methods: {
     //check des champs libelle et explication reponse
@@ -144,7 +157,12 @@ export default {
       }
     },
     sendQuestionForm() {
-      console.log("id", this.$route.params.idVersion);
+      let homeCont = this.$refs.questCont;
+        let loader = this.$loading.show({
+          container: homeCont,
+          loader: "spinner",
+          color: "black",
+        });
       let data = {
         libelle: this.question.libelle,
         explication: this.question.explication,
@@ -160,7 +178,8 @@ export default {
                  notif.success(response.message);
                  $('#questionModal').modal('hide');
                 //  setTimeout(function() {$('#questionModal').modal('hide');}, 2000);
-                this.$root.$emit("new-question-added");
+                this.$root.$emit("new-questionVersion-added");
+                loader.hide();
         })
         .catch(error => {
             notif.error(error.message);

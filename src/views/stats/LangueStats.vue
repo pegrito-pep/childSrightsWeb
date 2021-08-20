@@ -62,8 +62,6 @@ export default {
 @font-face {
     font-family: "Comic_Neue";
   src: local("Comic_Neue"), url("/fonts/Comic_Neue/ComicNeue-LightItalic.ttf") format("ttf");
- /* src: local("sourceSansPro"), url("/fonts/source_sans_pro/SourceSansPro-SemiBoldItalic.ttf") format("ttf");
-  src: local("Roboto"), url("/fonts/Roboto/Roboto-MediumItalic.ttf") format("ttf"), url("/fonts/Roboto/Roboto-ThinItalic.ttf") format("ttf");*/
 }
 .police {
     font-family: "Comic_Neue";

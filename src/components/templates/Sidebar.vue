@@ -1,12 +1,12 @@
 <template>
     <div class="app-sidebar colored">
         <div class="sidebar-header">
-            <a class="header-brand" href="index.html">
+            <router-link class="header-brand" to="/home">
                 <div class="logo-img mr-2">
                     <img src="/img/caysti-logo.png" class="header-brand-img" alt="lavalite" style="height: 1.5em; width: 1.5em"> 
                 </div>
-                <span class="text">ChildsRights</span>
-            </a>
+                <span class="text">ChildsRight</span>
+             </router-link>
             <button type="button" class="nav-toggle"><i data-toggle="expanded" class="ik ik-toggle-right toggle-icon"></i></button>
             <button id="sidebarClose" class="nav-close"><i class="ik ik-x"></i></button>
         </div>

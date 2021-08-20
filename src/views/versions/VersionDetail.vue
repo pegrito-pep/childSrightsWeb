@@ -169,9 +169,10 @@ export default {
     let idVersion=this.$route.params.idVersion
     await this.getQuestions(idVersion);
     //récuperation de la version ajoutée
-    this.$root.$on("new-question-added", () => {
+    this.$root.$on("new-questionVersion-added", () => {
       this.getQuestions(idVersion);
     });
+
   }
 };
 </script>
