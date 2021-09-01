@@ -177,7 +177,7 @@ export default {
                 this.commande2=0
                  notif.success(response.message);
                  $('#questionModal').modal('hide');
-                //  setTimeout(function() {$('#questionModal').modal('hide');}, 2000);
+                //  ut(function() {$('#questionModal').modal('hide');}, 2000);
                 this.$root.$emit("new-questionVersion-added");
                 loader.hide();
         })

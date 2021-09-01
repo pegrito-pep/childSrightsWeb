@@ -214,7 +214,6 @@ export default {
     },
     //gestion du select
     handlePageSizeChange(event){
-      console.log("event",event.target)
       this.pageSize=event;
       this.page=1;
       this.retrieveQuizzes();

@@ -86,7 +86,16 @@
                 </div>
                 </div>
             </transition-group>
+ 
         </div>
+        <b-pagination
+            v-model="page"
+            :total-rows="count"
+            :per-page="pageSize"
+            prev-text="Prev"
+            next-text="Next"
+            @change="handlePageChange"
+        ></b-pagination>
     </div>
    
 </template>
@@ -113,6 +122,10 @@ export default {
     name:'AllLearners2',
     data: () => {
     return {
+      page:1,
+      count:0,
+      pageSize:6,
+      totalItems:0,
       learners: [],
       countryList: [],
       inputType: "",
@@ -140,6 +153,44 @@ export default {
     },
   },
   methods: {
+     getRequestParams(page, pageSize){
+      let params={};
+      if(page){
+        params["page"]= page -1
+      }
+      if(pageSize){
+        params["size"]=pageSize
+      }
+      return params;
+    },
+    handlePageChange(value){
+      this.page=value;
+      this.retrieveLearners();
+    },
+     //recherche de quiz par son Libelle
+    retrieveLearners(){
+      let homeCont = this.$refs.learnerCont;
+        let loader = this.$loading.show({
+          container: homeCont,
+          loader: "spinner",
+          color: "black",
+        });
+      const params=this.getRequestParams(
+        this.page,
+        this.pageSize
+      );
+      axios.get("/enfants",{ params }).then(response => {
+        console.log(response)
+        const { learners, totalItems } = response.result;
+      this.totalItems=response.result.totalItems;
+        this.learners = response.result.data;
+        this.count=response.result.totalItems;
+        loader.hide();
+      })
+      .catch((error) => {
+        console.log(error)
+      });
+    },
     getImgUrl(pic) {
       //return "/img/avatars/"+pic;
       return pic;
@@ -156,44 +207,8 @@ export default {
       this.grapesSelected = "";
     },
   },
-  mounted() {
-    let homeCont = this.$refs.learnerCont;
-        let loader = this.$loading.show({
-          container: homeCont,
-          loader: "spinner",
-          color: "black",
-        });
-    axios
-      .get("enfants?filter=all")
-      .then((res) => res.result.data)
-      .then((res) => {
-        this.learners = res;
-        loader.hide();
-        console.log("learners",this.learners )
-      })
-      .then(() => {
-        for (let i = 0; i <= this.learners.length; i++) {
-          if (!this.countryList.includes(this.learners[i].parent.pays)) {
-            this.countryList.push(this.learners[i].parent.pays);
-            this.countryOption.push({
-                name: this.countryList.sort()[i],
-                id: this.countryList.sort()[i],
-        });
-          }
-        }
-       
-      });
-
-    /*setTimeout(() => {
-      console.log("enter here")
-      let arr = this.countryList.sort();
-      for (let i = 0; i < arr.length; i++) {
-        this.countryOption.push({
-          name: arr[i],
-          id: arr[i],
-        });
-      }
-    }, 500);*/
+  async mounted() {
+    await this.retrieveLearners();
   },
 
   
